@@ -1,0 +1,35 @@
+group 'net.sasconsul.gradle.battleship'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'junit', name: 'junit', version: '4.12'
+
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.10'
+
+    // https://mvnrepository.com/artifact/nl.jqno.equalsverifier/equalsverifier
+    compile group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: '2.1.5'
+
+    // https://mvnrepository.com/artifact/nl.talsmasoftware/umldoclet
+    compile group: 'nl.talsmasoftware', name: 'umldoclet', version: '1.0.3'
+
+    // from UMLDoclet at github https://github.com/talsma-ict/umldoclet/blob/master/doc/USAGE.md
+//     umlDoclet // "${project.groupId}:${project.artifactId}:${project.version}"
+
+}
+
+javadoc {
+    source = sourceSets.main.allJava
+    options.docletPath = configurations.umlDoclet.files.asType(List)
+    options.doclet = "nl.talsmasoftware.umldoclet.UMLDoclet"
+//    options.addStringOption "additionalParamName", "additionalParamValue"
+}
