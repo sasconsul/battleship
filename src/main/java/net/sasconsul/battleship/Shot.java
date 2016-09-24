@@ -1,7 +1,10 @@
 package net.sasconsul.battleship;
 
-/**
- * Created by sasconsul on 8/25/16.
- */
+import lombok.Data;
+
+@Data
 public class Shot {
+    public GridPoint pos;
+    public ShotResult shotResult;
+    int player;
 }

@@ -1,7 +1,3 @@
 package net.sasconsul.battleship;
 
-/**
- * Created by sasconsul on 8/25/16.
- */
-public class ShotResult {
-}
+public enum ShotResult {Hit, Miss, Taken, Sunk, Win}

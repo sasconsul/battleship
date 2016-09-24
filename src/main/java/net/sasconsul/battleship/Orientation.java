@@ -1,7 +1,18 @@
 package net.sasconsul.battleship;
 
-/**
- * Created by sasconsul on 8/25/16.
- */
-public class Orientation {
+
+import java.util.Random;
+
+public enum Orientation {
+    V, H; // V=vertical, H=horizontal
+
+    private static Random rand = new Random();
+
+    public boolean isHorizonal() {
+        return this == Orientation.H;
+    }
+
+    static public Orientation randOrientation() {
+        return rand.nextBoolean() ? Orientation.V : Orientation.H;
+    }
 }

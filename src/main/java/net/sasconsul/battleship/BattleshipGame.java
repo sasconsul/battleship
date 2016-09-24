@@ -2,6 +2,7 @@ package net.sasconsul.battleship;
 
 /**
  * Created by sasconsul on 8/23/16.
+ * Copyright Stuart Schmukler 2016
  *
  * JDL-studio link https://jhipster.github.io/jdl-studio/#/view/entity%20GridPoint%20%7B%0A%09x%20Integer%0A%20%20%20%20y%20Integer%0A%7D%0A%0Aenum%20Orientation%20%7B%20V%2C%20H%20%7D%0A%0Aenum%20ShotResult%20%7B%20HIT%2C%20MISS%2C%20TAKEN%2C%20SUNK%2C%20WIN%20%7D%0A%0Aenum%20ShipType%20%7B%0A%20%20%20%20%20%20%20%20AIR_CARRIER%2C%0A%20%20%20%20%20%20%20%20BATTLESHIP%2C%0A%20%20%20%20%20%20%20%20SUBMARINE%2C%0A%20%20%20%20%20%20%20%20CRUISER%2C%0A%20%20%20%20%20%20%20%20PATROL%0A%7D%0A%20%20%20%20%20%20%20%20%0Aentity%20PrimaryGrid%20%7B%0A%09height%20Integer%0A%20%20%20%20width%20Integer%0A%7D%0A%0Aentity%20TrackingGrid%20%7B%0A%09height%20Integer%0A%20%20%20%20width%20Integer%0A%7D%0A%0Aentity%20ShipModel%20%7B%0A%09shipType%20ShipType%20%0A%20%20%20%20topLeft%20GridPoint%20%0A%20%20%20%20orientation%20Orientation%0A%20%20%20%20size%20Integer%0A%20%20%20%20hits%20Integer%0A%20%20%20%20status%20ShotResult%20%0A%7D%0A%0Aentity%20Player%20%7B%0A%09primaryGrid%20PrimaryGrid%0A%20%20%20%20trackingGrid%20TrackingGrid%0A%7D%0Aentity%20Shot%20%7B%0A%09position%20GridPoint%0A%20%20%20%20shot%20ShotResult%0A%7D%0A%0Aentity%20BattleshipGame%20%7B%0A%09turns%20Integer%0A%20%20%20%20status%20ShotResult%0A%7D%0A%0Arelationship%20OneToMany%20%7B%0A%09%20%20PrimaryGrid%7Bships%7D%20to%20ShipModel%7BprimaryGrid%7D%0A%7D%0A%0Arelationship%20OneToMany%7B%0A%09ShipModel%7Bpoints%7D%20to%20GridPoint%7Bship%7D%0A%7D%0A%0Arelationship%20OneToMany%20%7B%0A%09TrackingGrid%7Bshots%7D%20to%20Shot%7BtrackingingGrid%7D%0A%7D%0A%0Arelationship%20OneToOne%20%7B%0A%09Player%7BprimaryGrid%7D%20to%20PrimaryGrid%7Bplayer%7D%0A%7D%0A%0Arelationship%20OneToOne%20%7B%0A%09ShipModel%7Borientation%7D%20to%20Orientation%0A%7D%0A%0Arelationship%20OneToOne%20%7B%0A%09Player%7BtrackingGrid%7D%20to%20TrackingGrid%7Bplayer%7D%0A%7D%0A%0Arelationship%20OneToMany%20%7B%0A%09BattleshipGame%7Bplayer%7D%20to%20Player%7BbattleshipGame%7D%0A%7D%0A%0A%0A%0A
  *
@@ -43,7 +44,7 @@ public class BattleshipGame {
         // Evaluate shot position result
         //
         ShotResult shotResult = theTarget.primaryGrid.findTarget(position);
-        int workingShips = theTarget.primaryGrid.workingShips();
+        int workingShips = theTarget.primaryGrid.countWorkingShips();
 
         if (workingShips == 0) {
             shotResult = ShotResult.Win;
@@ -89,19 +90,19 @@ public class BattleshipGame {
 
             game.turn++;
         }
+        System.out.printf("\nPlayer %d WON!\n", game.theShot.getPlayer());
 
         // Dump the grids for visual checking
         //
         System.out.println();
         for (int idx = 0; idx < game.players.length; idx++) {
-            System.out.printf("Game: player %d grids:\n", idx);
+            System.out.printf("\nGame: player %d grids:\n", idx);
             game.players[idx].printGrids();
             System.out.println();
         }
 
-        System.out.println("Check the winner's tracking grid with the loser's primary grid");
-        game.validateWinnerGrid(game.players, game.theShot);
-
+//        System.out.println("Check the winner's tracking grid with the loser's primary grid");
+//        game.validateWinnerGrid(game.players, game.theShot);
 
     }
 

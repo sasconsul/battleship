@@ -1,7 +1,10 @@
 package net.sasconsul.battleship;
 
-/**
- * Created by sasconsul on 8/25/16.
- */
+import lombok.Data;
+
+@Data
 public class ShipViewInput {
+    public GridPoint center;    // the mid point of the ship
+    public int size;            // in grid blocks
+    public Orientation orientation;
 }
